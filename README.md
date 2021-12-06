@@ -1,2 +1,3 @@
-# RUMBLE '21
-LETS R-R-R-R-RUMBLE!!!
+rr21 csv importer
+used to import dialog strings from localization csv
+open source so you can look at it if you want to
