@@ -41,11 +41,12 @@ importButton.Click:Connect(function()
 
 		-- Establish Locale ID's from the first row
 		if rowNum == 1 then
-			for i = stringStartColumn, #rowValues do
-				table.insert(localeIds, rowValues[i])
-			end
+			forEachString(rowValues, function(_columnNum, string)
+				table.insert(localeIds, string)
+			end)
 
 			for _, localeId in ipairs(localeIds) do
+				print(localeId)
 				stringsByLocaleId[localeId] = {}
 			end
 
@@ -67,14 +68,16 @@ importButton.Click:Connect(function()
 			})
 
 			forEachString(rowValues, function(columnNum, string)
-				local stringsForThisLocale = stringsByLocaleId[localeIds[columnNum - stringStartColumn]]
+				local localeid = localeIds[columnNum - stringStartColumn + 1]
+				print(localeid)
+				local stringsForThisLocale = stringsByLocaleId[localeid]
 				table.insert(stringsForThisLocale, numNames, string)
 			end)
 			continue
 		end
 
 		forEachString(rowValues, function(columnNum, string)
-			local stringsForThisLocale = stringsByLocaleId[localeIds[columnNum - stringStartColumn]]
+			local stringsForThisLocale = stringsByLocaleId[localeIds[columnNum - stringStartColumn + 1]]
 
 			table.insert(stringsForThisLocale, string)
 		end)
