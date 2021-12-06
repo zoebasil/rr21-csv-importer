@@ -67,14 +67,14 @@ importButton.Click:Connect(function()
 			})
 
 			forEachString(rowValues, function(columnNum, string)
-				local stringsForThisLocale = stringsByLocaleId[localeIds[columnNum - 3]]
+				local stringsForThisLocale = stringsByLocaleId[localeIds[columnNum - stringStartColumn]]
 				table.insert(stringsForThisLocale, numNames, string)
 			end)
 			continue
 		end
 
 		forEachString(rowValues, function(columnNum, string)
-			local stringsForThisLocale = stringsByLocaleId[localeIds[columnNum - 3]]
+			local stringsForThisLocale = stringsByLocaleId[localeIds[columnNum - stringStartColumn]]
 
 			table.insert(stringsForThisLocale, string)
 		end)
