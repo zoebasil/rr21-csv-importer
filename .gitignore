@@ -1,0 +1,9 @@
+# Project place file
+/too-many-ninjas.rbxlx
+
+# Roblox Studio lock files
+/*.rbxlx.lock
+/*.rbxl.lock
+
+# VS Code
+.vscode/settings.json

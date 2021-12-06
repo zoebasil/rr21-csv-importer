@@ -1,0 +1,9 @@
+{
+	"name": "RR21Csv",
+	"tree": {
+		"$className": "Folder",
+		"Plugin": {
+			"$path": "src"
+		}
+	}
+}
