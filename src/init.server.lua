@@ -54,7 +54,9 @@ importButton.Click:Connect(function()
 		end
 
 		local tagType, tagName, tagNumber = string.match(rowValues[1], "(%w+):(%w+):*(%w*)")
-		local spriteId = rowValues[2]
+		local dialogEvent = rowValues[2]
+		local characterId = rowValues[3]
+		local spriteId = rowValues[4]
 
 		if tagType then
 			print("rowNum", rowNum, "tagType", tagType, "tagName", tagName)
