@@ -29,6 +29,7 @@ importButton.Click:Connect(function()
 	local localeIds = {}
 	local stringsByLocaleId = {}
 	local stringChunks = {}
+	local nameIds = {}
 	local currentChunk = nil
 	local questions = {}
 	local answers = {}
@@ -69,6 +70,8 @@ importButton.Click:Connect(function()
 				stringIndex = #stringsByLocaleId[localeIds[1]],
 				isName = true,
 			})
+
+			nameIds[tagName] = #stringsByLocaleId[localeIds[1]]
 			continue
 		end
 
@@ -82,7 +85,7 @@ importButton.Click:Connect(function()
 			stringIndex = #stringsByLocaleId[localeIds[1]],
 			spriteId = spriteId,
 			dialogEvent = dialogEvent,
-			characterId = stringChunks[characterName],
+			characterId = nameIds[characterName],
 		}
 
 		if tagType == "chunk" then
