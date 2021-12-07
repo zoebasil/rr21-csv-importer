@@ -26,7 +26,6 @@ importButton.Click:Connect(function()
 	local csvContent = csvSheet:GetBinaryContents()
 	local f = Csv.openstring(csvContent)
 
-	local numNames = 0
 	local localeIds = {}
 	local stringsByLocaleId = {}
 	local stringChunks = {}
@@ -55,26 +54,21 @@ importButton.Click:Connect(function()
 
 		local tagType, tagName, tagNumber = string.match(rowValues[1], "(%w+):(%w+):*(%w*)")
 		local dialogEvent = rowValues[2]
-		local characterId = rowValues[3]
+		local characterName = rowValues[3]
 		local spriteId = rowValues[4]
 
-		if tagType then
-			print("rowNum", rowNum, "tagType", tagType, "tagName", tagName)
-		end
-
 		if tagType == "name" then
-			numNames += 1
-			table.insert(stringChunks, numNames, {
-				name = tagName,
-				stringId = numNames,
-			})
-
 			forEachString(rowValues, function(columnNum, string)
 				local localeid = localeIds[columnNum - stringStartColumn + 1]
-				print(localeid)
 				local stringsForThisLocale = stringsByLocaleId[localeid]
-				table.insert(stringsForThisLocale, numNames, string)
+				table.insert(stringsForThisLocale, string)
 			end)
+
+			table.insert(stringChunks, {
+				name = tagName,
+				stringIndex = #stringsByLocaleId[localeIds[1]],
+				isName = true,
+			})
 			continue
 		end
 
@@ -87,6 +81,8 @@ importButton.Click:Connect(function()
 		local thisString = {
 			stringIndex = #stringsByLocaleId[localeIds[1]],
 			spriteId = spriteId,
+			dialogEvent = dialogEvent,
+			characterId = stringChunks[characterName],
 		}
 
 		if tagType == "chunk" then
@@ -142,6 +138,16 @@ importButton.Click:Connect(function()
 		end
 
 		table.insert(currentChunk.strings, thisString)
+	end
+
+	local oldRaw = workspace:FindFirstChild("Raw Strings")
+	local oldChunks = workspace:FindFirstChild("ChunkMap")
+
+	if oldRaw then
+		oldRaw:Destroy()
+	end
+	if oldChunks then
+		oldChunks:Destroy()
 	end
 
 	local folder = Instance.new("Folder", workspace)

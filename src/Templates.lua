@@ -28,6 +28,8 @@ local nameChunkTemplate = "%s = %d"
 local stringEntryTemplate = [[{
 	stringIndex = %d,
 	spriteId = "%s",
+	dialogEvent = "%s",
+	characterId = %s,
 }]]
 
 local answerStringEntryTemplate = [[{
@@ -43,6 +45,8 @@ local answerStringWithResponsesTemplate = [[{
 local stringEntryWithAnswersTemplate = [[{
 	stringIndex = %d,
 	spriteId = "%s",
+	dialogEvent = "%s",
+	characterId = %s,
 	answers = {%s
 	},
 }]]
@@ -50,8 +54,8 @@ local stringEntryWithAnswersTemplate = [[{
 function Templates.generateStringChunkMap(stringChunks)
 	local mapContents = ""
 	for _, chunk in ipairs(stringChunks) do
-		if chunk.stringId then
-			local chunkEntry = string.format(nameChunkTemplate, chunk.name, chunk.stringId)
+		if chunk.isName then
+			local chunkEntry = string.format(nameChunkTemplate, chunk.name, chunk.stringIndex)
 			chunkEntry = "\n" .. chunkEntry .. ","
 			chunkEntry = string.gsub(chunkEntry, "\n", "\n\t")
 
@@ -75,7 +79,9 @@ function Templates.generateStringChunkMap(stringChunks)
 							local responseEntry = string.format(
 								stringEntryTemplate,
 								response.stringIndex,
-								response.spriteId
+								response.spriteId,
+								tostring(response.dialogEvent),
+								tostring(response.characterId)
 							)
 
 							responseEntry = "\n" .. responseEntry .. ","
@@ -101,10 +107,18 @@ function Templates.generateStringChunkMap(stringChunks)
 					stringEntryWithAnswersTemplate,
 					stringData.stringIndex,
 					stringData.spriteId,
+					tostring(stringData.dialogEvent),
+					tostring(stringData.characterId),
 					stringEntryAnswers
 				)
 			else
-				stringEntry = string.format(stringEntryTemplate, stringData.stringIndex, stringData.spriteId)
+				stringEntry = string.format(
+					stringEntryTemplate,
+					stringData.stringIndex,
+					stringData.spriteId,
+					tostring(stringData.dialogEvent),
+					tostring(stringData.characterId)
+				)
 			end
 
 			stringEntry = "\n" .. stringEntry .. ","
