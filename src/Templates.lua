@@ -25,6 +25,11 @@ local chunkTemplate = [[%s = {%s
 
 local nameChunkTemplate = "%s = %d"
 
+local upgradeChunkTemplate = [[%s = {
+	upgradeName = %d,
+	upgradeDesc = %d,
+}]]
+
 local stringEntryTemplate = [[{
 	stringIndex = %d,
 	spriteId = "%s",
@@ -56,6 +61,15 @@ function Templates.generateStringChunkMap(stringChunks)
 	for _, chunk in ipairs(stringChunks) do
 		if chunk.isName then
 			local chunkEntry = string.format(nameChunkTemplate, chunk.name, chunk.stringIndex)
+			chunkEntry = "\n" .. chunkEntry .. ","
+			chunkEntry = string.gsub(chunkEntry, "\n", "\n\t")
+
+			mapContents = mapContents .. chunkEntry
+			continue
+		end
+
+		if chunk.isUpgrade then
+			local chunkEntry = string.format(upgradeChunkTemplate, chunk.name, chunk.upgradeName, chunk.upgradeDesc)
 			chunkEntry = "\n" .. chunkEntry .. ","
 			chunkEntry = string.gsub(chunkEntry, "\n", "\n\t")
 

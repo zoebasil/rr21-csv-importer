@@ -34,6 +34,7 @@ importButton.Click:Connect(function()
 	local questions = {}
 	local answers = {}
 	local responses = {}
+	local upgrades = {}
 
 	local rowNum = 0
 	for rowValues in f:lines() do
@@ -80,6 +81,26 @@ importButton.Click:Connect(function()
 
 			table.insert(stringsForThisLocale, string)
 		end)
+
+		if tagType == "upg" then
+			local upg = {
+				name = tagName,
+				upgradeName = #stringsByLocaleId[localeIds[1]],
+				upgradeDesc = nil,
+				isUpgrade = true,
+			}
+
+			upgrades[tagName] = upg
+
+			table.insert(stringChunks, upg)
+			continue
+		end
+
+		if tagType == "desc" then
+			local upg = upgrades[tagName]
+			upg.upgradeDesc = #stringsByLocaleId[localeIds[1]]
+			continue
+		end
 
 		local thisString = {
 			stringIndex = #stringsByLocaleId[localeIds[1]],
