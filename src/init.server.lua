@@ -6,7 +6,7 @@ local importButton = toolbar:CreateButton("importCsv", "Import CSV", "rbxassetid
 local Csv = require(script.Csv)
 local Templates = require(script.Templates)
 
-local stringStartColumn = 5
+local stringStartColumn = 6
 
 local function forEachString(rowValues, callback)
 	for columnNum = stringStartColumn, #rowValues do
