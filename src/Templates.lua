@@ -5,11 +5,12 @@ local stringArrayTemplate = [[return {%s
 
 function Templates.generateStringArray(strings)
 	local finalStr = ""
-	for _, str in ipairs(strings) do
-		str = string.gsub(str, "\n", "")
-		str = string.gsub(str, '"', '\\"')
-		str = '\n\t"' .. str .. '",'
-		finalStr = finalStr .. str
+	for i, str in ipairs(strings) do
+		str = string.gsub(str, "\n", "") -- Removes newlines
+		str = string.gsub(str, '"', '\\"') -- Escapes quote literals
+		local formattedStr = string.format('\n\t [%d] = "%s",', i, str)
+
+		finalStr = finalStr .. formattedStr
 	end
 	return string.format(stringArrayTemplate, finalStr)
 end
